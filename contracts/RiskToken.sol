@@ -110,6 +110,14 @@ contract RiskToken is ERC20Interface, Owned {
         uint round;
         uint amount;
     }
+
+    struct LastGame {
+      uint round;
+      uint redAmount;
+      uint blueAmount;
+      uint8 winner;
+      uint endingBlock;
+    }
     //Team Captains -> Team captain gets one token each time their team member gets a win.
     //They are the player who holds the most tokens on each team.
     address public redCaptain;
@@ -131,6 +139,7 @@ contract RiskToken is ERC20Interface, Owned {
     mapping(address => Risk) playersRisks;
     //Game Counter
     uint public gameRound;
+    LastGame public lastGame;
 
     function RiskToken() public {
         symbol = "RSK";
@@ -144,7 +153,9 @@ contract RiskToken is ERC20Interface, Owned {
         blueRisked = 0;
         redRisked = 0;
         gameRound = 0;
+        lastGame.winner = 0;
         decimals = 0;
+        lastGame.endingBlock = block.number;
         _totalSupply = 200000; //* 10**uint(decimals);
         //balances[owner] = _totalSupply;
         Transfer(address(0), owner, _totalSupply);
@@ -209,10 +220,10 @@ contract RiskToken is ERC20Interface, Owned {
         require(team == 1 || team == 2);
         if (team == 1) {
           //red team
-          redRisked++;
+          redRisked += riskAmount;
         } else if (team == 2) {
           //blue team
-          blueRisked++;
+          blueRisked += riskAmount;
         }
         //Place the players risk for this round
         var _risk = playersRisks[msg.sender];
@@ -224,16 +235,52 @@ contract RiskToken is ERC20Interface, Owned {
 
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
+      //Round requirements for time?
+      require(block.number >= lastGame.endingBlock);
+      lastGame.redAmount = redRisked;
+      lastGame.blueAmount = blueRisked;
+      lastGame.endingBlock = block.number;
+      lastGame.round = gameRound;
       gameRound++;
+      if (redRisked > blueRisked) {
+        lastGame.winner = 1;
+      } else if (blueRisked > redRisked) {
+        lastGame.winner = 2;
+      } else {
+        lastGame.winner = 0;
+      }
+      redRisked = 0;
+      blueRisked = 0;
+    }
+
+    //Allows a player to claim their winnings for the last round (round just ended)
+    function claimWinnings() {
+      require(lastGame.winner != 0);
+      var risk = playersRisks[msg.sender];
+      if (risk.round == gameRound - 1 && playerTeams[msg.sender] == lastGame.winner) {
+        //return their amount + the fair share of the other teams winngins
+        balances[msg.sender] += risk.amount; //+ (div(riskAmount,) todo - how to calc how much of other teams winnings they get
+        //Reset so players cant double claimWinnings
+        playersRisks[msg.sender].amount = 0;
+        playersRisks[msg.sdner].round = 0;
+      }
     }
 
     //Claim Team Captain
     function claimCaptain(uint team) {
       require(team == 1 || team == 2);
       if (team == 1) { //Red team
-
+        if (balances[redCaptain] < balances[msg.sender] && playerTeams[msg.sender] == team) {
+          redCaptain = msg.sender;
+        } else {
+          throw;
+        }
       } else { //Blue team
-
+        if (balances[blueCaptain] < balances[msg.sender] && playerTeams[msg.sender] == team) {
+          blueCaptain = msg.sender;
+        } else {
+          throw;
+        }
       }
     }
 
@@ -252,7 +299,10 @@ contract RiskToken is ERC20Interface, Owned {
     }
     balances[msg.sender] += tokensToPurchase; //Give them the tokens
     tokensDistributed += tokensToPurchase;
-    //TODO Send ETH to the contract owner.
+    //Send ETH to contract owner
+    if(!owner.send(msg.value)) {
+      throw;
+    }
     }
 
     //Check which team you are
@@ -260,9 +310,6 @@ contract RiskToken is ERC20Interface, Owned {
       return playerTeams[msg.sender];
     }
 
-    function tokensLeft() returns (uint tokens) {
-      return _totalSupply.sub(tokensDistributed);
-    }
 
 
 

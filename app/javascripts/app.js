@@ -122,10 +122,10 @@ window.App = {
     var meta;
     MetaCoin.deployed().then(function(instance) {
       meta = instance;
-     return meta.tokensLeft.call({from: account});
+     return meta.tokensDistributed.call({from: account});
     }).then(function(value) {
       var balance_element = document.getElementById("tokens_left");
-      balance_element.innerHTML = value.valueOf();
+      balance_element.innerHTML = 200000 - value.valueOf();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error getting balance; see log.");
@@ -228,7 +228,51 @@ window.App = {
     }).catch(function(e) {
       console.log(e);
     });
+  },
+
+  claimCaptain: function() {
+    //get the users team
+    var self = this;
+    var meta;
+    MetaCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.getTeam.call({from: account});
+    }).then(function(value) {
+      console.log(value.valueOf());
+      return meta.claimCaptain(value.valueOf(), {from:account});
+    }).then(function() {
+      self.refreshGameDetails();
+    }).catch(function(e) {
+      console.log(e);
+    });
+  },
+
+  endRound: function() {
+    var self = this;
+    var meta;
+    MetaCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.endRound({from: account});
+    }).then(function(value) {
+      console.log("Round Ended");
+    }).catch(function (e) {
+      console.log("Failed trying to end round");
+    });
+  },
+
+  claimWinnings: function() {
+    var self = this;
+    var meta;
+    MetaCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.claimWinnings({from: account});
+    }).then(function(value) {
+      console.log("Claimed Winnings");
+    }).catch(function (e) {
+      console.log("Failed trying to end round");
+    });
   }
+  
 };
 
 
