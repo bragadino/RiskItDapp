@@ -158,7 +158,7 @@ contract RiskToken is ERC20Interface, Owned {
         lastGame.endingBlock = block.number;
         _totalSupply = 200000; //* 10**uint(decimals);
         //balances[owner] = _totalSupply;
-        Transfer(address(0), owner, _totalSupply);
+        //Transfer(address(0), owner, _totalSupply);
     }
 
     function totalSupply() public constant returns (uint) {
@@ -170,10 +170,14 @@ contract RiskToken is ERC20Interface, Owned {
     }
 
     function transfer(address to, uint tokens) public returns (bool success) {
-        balances[msg.sender] = balances[msg.sender].sub(tokens);
-        balances[to] = balances[to].add(tokens);
-        Transfer(msg.sender, to, tokens);
-        return true;
+        if (balances[msg.sender] >= tokens) {
+          balances[msg.sender] = balances[msg.sender].sub(tokens);
+          balances[to] = balances[to].add(tokens);
+          Transfer(msg.sender, to, tokens);
+          return true;
+        } else {
+          return false;
+        }
     }
 
     function approve(address spender, uint tokens) public returns (bool success) {
@@ -183,29 +187,21 @@ contract RiskToken is ERC20Interface, Owned {
     }
 
     function transferFrom(address from, address to, uint tokens) public returns (bool success) {
-        balances[from] = balances[from].sub(tokens);
-        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
-        balances[to] = balances[to].add(tokens);
-        Transfer(from, to, tokens);
-        return true;
+      if (balances[from] >= tokens && allowed[from][msg.sender] >= tokens
+            && tokens > 0 && balances[to] + tokens > balances[to]) {
+          balances[from] = balances[from].sub(tokens);
+          allowed[from][msg.sender] -= allowed[from][msg.sender].sub(tokens);
+          balances[to] += balances[to].add(tokens);
+          Transfer(from, to, tokens);
+          return true;
+      } else {
+          return false;
+      }
     }
+
 
     function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {
         return allowed[tokenOwner][spender];
-    }
-
-    function approveAndCall(address spender, uint tokens, bytes data) public returns (bool success) {
-        allowed[msg.sender][spender] = tokens;
-        Approval(msg.sender, spender, tokens);
-        ApproveAndCallFallBack(spender).receiveApproval(msg.sender, tokens, this, data);
-        return true;
-    }
-
-    // ------------------------------------------------------------------------
-    // Owner can transfer out any accidentally sent ERC20 tokens
-    // ------------------------------------------------------------------------
-    function transferAnyERC20Token(address tokenAddress, uint tokens) public onlyOwner returns (bool success) {
-        return ERC20Interface(tokenAddress).transfer(owner, tokens);
     }
 
     //Game Methods Below
@@ -236,7 +232,7 @@ contract RiskToken is ERC20Interface, Owned {
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
       //Round requirements for time?
-      require(block.number >= lastGame.endingBlock);
+      require(block.number + 120 >= lastGame.endingBlock);
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
       lastGame.endingBlock = block.number;
@@ -262,7 +258,7 @@ contract RiskToken is ERC20Interface, Owned {
         balances[msg.sender] += risk.amount; //+ (div(riskAmount,) todo - how to calc how much of other teams winnings they get
         //Reset so players cant double claimWinnings
         playersRisks[msg.sender].amount = 0;
-        playersRisks[msg.sdner].round = 0;
+        playersRisks[msg.sender].round = 0;
       }
     }
 

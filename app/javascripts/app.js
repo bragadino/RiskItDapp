@@ -16,7 +16,7 @@ var MetaCoin = contract(metacoin_artifacts);
 // For application bootstrapping, check out window.addEventListener below.
 var accounts;
 var account;
-
+var baseURL = "http://localhost:8080/";
 window.App = {
   start: function() {
     var self = this;
@@ -36,14 +36,24 @@ window.App = {
         return;
       }
 
+
       accounts = accs;
       account = accounts[0];
-
+      var team = self.getTeam();
+      alert(window.location.href);
+      if ((team != 1 || team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
+        //tell the player they need to Register
+        alert("You need to register before playing!");
+        //Show register page
+        window.location.href = "register.html";
+      }
       self.refreshGameDetails();
     });
   },
+
   refreshGameDetails: function() {
-    this.getTeam();
+    var team = this.getTeam();
+    this.setTeam(team);
     this.showAccount();
     this.getTeamPoints();
     this.getTeamNums();
@@ -182,18 +192,22 @@ window.App = {
       meta = instance;
       return meta.getTeam.call({from: account});
     }).then(function(value) {
-      var team_element = document.getElementById("team");
-      if (value.valueOf() == 1) {
-        team_element.innerHTML = "Red";
-      } else if (value.valueOf() == 2) {
-        team_element.innerHTML = "Blue";
-      } else {
-        team_element.innerHTML = "Not Registered";
-      }
+      return value.valueOf();
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error getting balance; see log.");
     });
+  },
+
+  setTeam: function(team_value) {
+    var team_element = document.getElementById("team");
+    if (team_value == 1) {
+      team_element.innerHTML = "Red";
+    } else if (team_value == 2) {
+      team_element.innerHTML = "Blue";
+    } else {
+      team_element.innerHTML = "Not Registered";
+    }
   },
 
   register: function() {
@@ -272,7 +286,7 @@ window.App = {
       console.log("Failed trying to end round");
     });
   }
-  
+
 };
 
 
