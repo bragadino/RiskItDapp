@@ -40,13 +40,14 @@ window.App = {
       accounts = accs;
       account = accounts[0];
       var team = self.getTeam();
-      alert(window.location.href);
-      if ((team != 1 || team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
-        //tell the player they need to Register
-        alert("You need to register before playing!");
-        //Show register page
-        window.location.href = "register.html";
-      }
+      //TODO Get this must register thing working
+      // if ((team != 1 || team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
+      //   //tell the player they need to Register
+      //   alert(team);
+      //   alert("You need to register before playing!");
+      //   //Show register page
+      //   window.location.href = "register.html";
+      // }
       self.refreshGameDetails();
     });
   },
@@ -62,6 +63,7 @@ window.App = {
     this.getRisked(); //todo this is just for testing, remove later
     this.getRound();
     this.refreshBalance();
+    this.refreshNav(team, 100, 1);
   },
 
   setStatus: function(message) {
@@ -138,7 +140,7 @@ window.App = {
       balance_element.innerHTML = 200000 - value.valueOf();
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error getting balance; see log.");
+      //self.setStatus("Error getting balance; see log.");
     });
   },
 
@@ -181,7 +183,7 @@ window.App = {
       balance_element.innerHTML = value.valueOf();
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error getting balance; see log.");
+      //self.setStatus("Error getting balance; see log.");
     });
   },
 
@@ -195,7 +197,8 @@ window.App = {
       return value.valueOf();
     }).catch(function(e) {
       console.log(e);
-      self.setStatus("Error getting balance; see log.");
+      //self.setStatus("Error getting balance; see log.");
+      return 0;
     });
   },
 
@@ -210,19 +213,36 @@ window.App = {
     }
   },
 
+  refreshNav: function(team, tokens, teamScore) {
+    var team_element = document.getElementById("header_team");
+    var token_element = document.getElementById("header_tokens");
+    var team_score_element = document.getElementById("header_team_points");
+    if (team == 1) {
+      team_element.innerHTML = "Team: Red";
+    } else if (team == 2) {
+      team_element.innerHTML = "Team: Blue";
+    } else {
+      team_element.innerHTML = "Team: Not Registered";
+    }
+    token_element.innerHTML = "Tokens: "+tokens;
+    team_score_element.innerHTML = "Teams Points: "+teamScore;
+
+
+  },
+
   register: function() {
     var self = this;
       var team = document.getElementById("team_choice");
       var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
       var tokens = parseInt(document.getElementById("token_amount").value);
-      this.setStatus("Initiating transaction..."+teamInt+" ");
+      //this.setStatus("Initiating transaction..."+teamInt+" ");
       var meta;
       MetaCoin.deployed().then(function(instance) {
         meta = instance;
         var weiValue = web3.toWei(tokens * (1/1000), 'ether');
         return meta.register(teamInt, tokens, {from: account, value: weiValue});
       }).then(function() {
-        self.setStatus("Transaction complete! Registed for team "+teamInt);
+        //self.setStatus("Transaction complete! Registed for team "+teamInt);
         self.refreshGameDetails();
       }).catch(function(e) {
         console.log(e);

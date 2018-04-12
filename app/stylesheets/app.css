@@ -1,7 +1,12 @@
 body {
   margin-left: 25%;
   margin-right: 25%;
-  margin-top: 10%;
+  font-family: "Open Sans", sans-serif;
+}
+
+.main_content {
+  margin-left: 25%;
+  margin-right: 25%;
   font-family: "Open Sans", sans-serif;
 }
 
@@ -64,4 +69,30 @@ top:0;
 left:0;
 margin: auto;
 width:100%;
+}
+
+.main_nav {
+     text-align: center;
+     background: #ffffff;
+     height: 50px;
+}
+button.main_nav {
+    text-align: centre;
+    font-size: 18px;
+    background-color: Transparent;
+    color: #000000;
+    outline:none;
+    border:none;
+    padding:5px;
+    margin-left: 0%;
+}
+
+button.main_nav:hover {
+    background-color:#000000;
+    color: white;
+}
+
+span.main_nav {
+  padding-right: 10px;
+  font-style: italic;
 }
