@@ -39,22 +39,41 @@ window.App = {
 
       accounts = accs;
       account = accounts[0];
-      var team = self.getTeam();
-      //TODO Get this must register thing working
-      // if ((team != 1 || team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
-      //   //tell the player they need to Register
-      //   alert(team);
-      //   alert("You need to register before playing!");
-      //   //Show register page
-      //   window.location.href = "register.html";
-      // }
-      self.refreshGameDetails();
+      self.getTeam(self.checkRegistered);
+      //self.refreshGameDetails();
     });
   },
 
+  //Nav Bar Functions
+  clickedPlay: function() {
+    window.location.href = "index.html";
+  },
+
+  clickedRegister: function() {
+    window.location.href = "register.html"
+  },
+
+  clickedFAQ: function() {
+    alert("FAQS not yet available");
+  },
+
+  clickedGameStats: function() {
+    window.location.href = "gamestats.html"
+  },
+
+  checkRegistered: function(team) {
+    if ((team != 1 && team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
+      //tell the player they need to Register
+      //alert("You need to register before playing!");
+      //Show register page
+      //window.location.href = "register.html";
+    }
+  },
+
   refreshGameDetails: function() {
-    var team = this.getTeam();
-    this.setTeam(team);
+    //var team = this.getTeam();
+    //this.setTeam(team);
+    this.getTeam(this.setTeam);
     this.showAccount();
     this.getTeamPoints();
     this.getTeamNums();
@@ -64,11 +83,6 @@ window.App = {
     this.getRound();
     this.refreshBalance();
     this.refreshNav(team, 100, 1);
-  },
-
-  setStatus: function(message) {
-    var status = document.getElementById("you");
-    status.innerHTML = message;
   },
 
   showAccount: function() {
@@ -187,18 +201,16 @@ window.App = {
     });
   },
 
-  getTeam: function() {
+  getTeam: function(onSucess) {
     var self = this;
     var meta;
     MetaCoin.deployed().then(function(instance) {
       meta = instance;
       return meta.getTeam.call({from: account});
     }).then(function(value) {
-      return value.valueOf();
+      onSucess(value.valueOf());
     }).catch(function(e) {
       console.log(e);
-      //self.setStatus("Error getting balance; see log.");
-      return 0;
     });
   },
 
@@ -232,22 +244,23 @@ window.App = {
 
   register: function() {
     var self = this;
-      var team = document.getElementById("team_choice");
-      var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
+      var team = document.getElementById("team_checkbox");
+      //var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
       var tokens = parseInt(document.getElementById("token_amount").value);
       //this.setStatus("Initiating transaction..."+teamInt+" ");
+      alert(team.value.valueOf());
       var meta;
-      MetaCoin.deployed().then(function(instance) {
-        meta = instance;
-        var weiValue = web3.toWei(tokens * (1/1000), 'ether');
-        return meta.register(teamInt, tokens, {from: account, value: weiValue});
-      }).then(function() {
-        //self.setStatus("Transaction complete! Registed for team "+teamInt);
-        self.refreshGameDetails();
-      }).catch(function(e) {
-        console.log(e);
-        //self.setStatus("Error sending coin; see log.");
-      });
+      // MetaCoin.deployed().then(function(instance) {
+      //   meta = instance;
+      //   var weiValue = web3.toWei(tokens * (1/1000), 'ether');
+      //   return meta.register(teamInt, tokens, {from: account, value: weiValue});
+      // }).then(function() {
+      //   //self.setStatus("Transaction complete! Registed for team "+teamInt);
+      //   self.refreshGameDetails();
+      // }).catch(function(e) {
+      //   console.log(e);
+      //   //self.setStatus("Error sending coin; see log.");
+      // });
     },
 
   risk: function() {

@@ -5,20 +5,34 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
 </head>
+<div class="main_nav">
+  <button onclick="App.clickedPlay()" type="button" class="main_nav">Play</button>
+  <button onclick="App.clickedRegister()" type="button" class="main_nav">Register</button>
+  <button onclick="App.clickedFAQ()" type="button" class="main_nav">FAQS</button>
+  <button onclick="App.clickedGameStats()" type="button" class="main_nav">Game Stats</button>
+</div>
 <body>
-  <h1>Risk - Ethereum Based Team Game</h1><br>
-  <p> Welcome to Risk, an ERC20 based team Game! To play, you must first register for a teams
-    and purchase some tokens below.
+  <h1> Register </h1>
+  <p> Welcome to Risk, an ERC20 based team game where you can join the never ending battle of
+    Red vs Blue!
   </p>
-  
-  <h2> Register </h2>
+  <p> To play, you must first register with a team below. In order to participate you must purchase some Risk (RSK) tokens.
+    The RSK token is an integral part of the game - you will battle against the other team by riskign tokens each round. The teams
+    who risked the most tokens goes home as the winner - getting their tokens back and 50% of the other teams tokens (The other 50% are burned).
+  </p>
   <br>
-  <h3> Team:
-  <select id = "team_choice">
+  <h3> Team
+  <br>
+  <!-- <select id = "team_choice">
   <option value="1">Red</option>
   <option value="2">Blue</option>
-  </select>
+  </select> -->
   <br>
+  <!-- Rectangular switch -->
+  <div id=button_switch>
+    <button onclick="" type="button" class="red_button">Red</button>
+    <button onclick="" type="button" class="blue_button">Blue</button>
+  </div>
   <form>
     Tokens (1ETH = 1000 RSK):<br>
     <input type="text" name="token_amount" id='token_amount'><br>

@@ -6,81 +6,16 @@
   <script src="./app.js"></script>
 </head>
 <div class="main_nav">
-  <button onclick="" type="button" class="main_nav">Register</button>
-  <button onclick="" type="button" class="main_nav">Play</button>
-  <button onclick="" type="button" class="main_nav">FAQS</button>
-  <span id="header_team" class="main_nav"> Your Team: </span>
-  <span id="header_tokens" class="main_nav"> Your Tokens: </span>
-  <span id="header_team_points" class="main_nav"> Your Teams Points: </span>
+  <button onclick="App.clickedPlay()" type="button" class="main_nav">Play</button>
+  <button onclick="App.clickedRegister()" type="button" class="main_nav">Register</button>
+  <button onclick="App.clickedFAQ()" type="button" class="main_nav">FAQS</button>
+  <button onclick="App.clickedGameStats()" type="button" class="main_nav">Game Stats</button>
 </div>
 <body>
-  <!-- <div class="main_nav">
-    <button onclick="" type="button" class="main_nav">Register</button>
-    <button onclick="" type="button" class="main_nav">Play</button>
-    <button onclick="" type="button" class="main_nav">FAQS</button>
-    <span id="header_team"> Your Team: </span>
-    <span id="header_tokens"> Your Tokens: </span>
-    <span id="header_team_points"> Your Teams Points: </span>
-  </div> -->
 
-  <h1>Risk - Ethereum Based Team Game</h1><br>
 
-  <h2>Game Stats</h2>
-  <br>
-  <h3>Tokens Left: <span class="black"><span id="tokens_left" style="display:inline;"> </span></h3>
-  <h3>Red Team Players: <span class="black"><span id="red_tp" style="display:inline;"> </span></h3>
-  <h3>Blue Team Players: <span class="black"><span id="blue_tp" style="display:inline;"> </span></h3>
-  <h3>Red Team Points: <span class="black"><span id="red_tpts" style="display:inline;"> </span></h3>
-  <h3>Blue Team Points: <span class="black"><span id="blue_tpts" style="display:inline;"> </span></h3>
-  <h3>Red Team Captain: <span class="black"><span id="red_tc" style="display:inline;"> </span></h3>
-  <h3>Blue Team Captain: <span class="black"><span id="blue_tc" style="display:inline;"> </span></h3>
-  <h3>Red Risked: <span class="black"><span id="red_risked" style="display:inline;"> </span></h3>
-  <h3>Blue Risked: <span class="black"><span id="blue_risked" style="display:inline;"> </span></h3>
-  <h3>Game Round: <span class="black"><span id="game_round" style="display:inline;"> </span></h3>
+  <h1>Welcome to Risk - Ethereum Based Team Game</h1><br>
 
-  <br>
 
-  <h2>Personal Stats</h2>
-  <h3>You are: <span class="black"><span id="you"></span> </h3>
-  <h3>Team: <span class="black"><span id="team"></span> </h3>
-  <h3>Tokens: <span class="black"><span id="balance"> </span></h3>
-  <br>
-
-  <h2> Register </h2>
-  <br>
-  <h3> Team:
-  <select id = "team_choice">
-  <option value="1">Red</option>
-  <option value="2">Blue</option>
-  </select>
-  <br>
-  <form>
-    Tokens (1ETH = 1000 RSK):<br>
-    <input type="text" name="token_amount" id='token_amount'><br>
-  </form>
-  <button type="register" onclick="App.register()"> Register</button>
-  <br>
-
-  <h2> Claim Captain </h2>
-  <button type="register" onclick="App.claimCaptain()"> Claim Captain</button>
-  <br>
-
-  <h2> Play </h2>
-  <br>
-  <form>
-    Tokens to Risk (Min 1, Max 10000?):<br>
-    <input type="text" name="tokens_to_risk" id='tokens_to_risk'><br>
-  </form>
-  <button type="risk" onclick="App.risk()"> Risk it!</button>
-  <br>
-
-  <h2> End Round </h2>
-  <br>
-  <button type="risk" onclick="App.endRound()"> End Round</button>
-  <br>
-
-  <h2> Claim Winnings</h2>
-  <br>
-  <button type="risk" onclick="App.claimWinnings()"> End Round</button>
 </body>
 </html>

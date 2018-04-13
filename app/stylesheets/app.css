@@ -34,21 +34,14 @@ h1, h2 {
 }
 
 h2 {
-  color: #AAA;
+  color: black;
   font-size: 32px;
 }
 
 h3 {
   font-weight: normal;
-  color: #AAA;
+  color: black;
   font-size: 24px;
-}
-
-#topHead {
-  font-weight: normal;
-  color: #AFC;
-  font-size: 22px;
-  margin: 25px 50px 75px 100px;
 }
 
 .black {
@@ -61,14 +54,6 @@ h3 {
 
 .hint {
   color: #666;
-}
-
-#blackBar{
-position:fixed;
-top:0;
-left:0;
-margin: auto;
-width:100%;
 }
 
 .main_nav {
@@ -88,11 +73,39 @@ button.main_nav {
 }
 
 button.main_nav:hover {
-    background-color:#000000;
+    background-color:black;
     color: white;
 }
 
 span.main_nav {
   padding-right: 10px;
   font-style: italic;
+}
+
+.button_switch {
+  text-align: center;
+  background: #ffffff;
+  height: 50px;
+  width: 200px;
+}
+.red_button {
+  background: red;
+  outline: none;
+  border: none;
+  color: white;
+  margin-right: 0%;
+  margin-left: 0%;
+  height: 50px;
+  width:100px;
+}
+
+.blue_button {
+  background: blue;
+  outline: none;
+  border: none;
+  color: white;
+  margin-left: 0%;
+  margin-right: 0%;
+  height: 50px;
+  width:100px;
 }
