@@ -155,7 +155,7 @@ contract RiskToken is ERC20Interface, Owned {
         gameRound = 0;
         lastGame.winner = 0;
         decimals = 0;
-        lastGame.endingBlock = block.number;
+        lastGame.endingBlock = now;
         _totalSupply = 200000; //* 10**uint(decimals);
         //balances[owner] = _totalSupply;
         //Transfer(address(0), owner, _totalSupply);
@@ -232,7 +232,8 @@ contract RiskToken is ERC20Interface, Owned {
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
       //Round requirements for time?
-      require(block.number + 120 >= lastGame.endingBlock);
+      //require(now >= lastGame.endingBlock + 5 days);
+      require(now >= lastGame.endingBlock + 5 minutes); //todo remove after testing
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
       lastGame.endingBlock = block.number;

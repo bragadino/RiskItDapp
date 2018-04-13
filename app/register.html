@@ -17,27 +17,22 @@
     Red vs Blue!
   </p>
   <p> To play, you must first register with a team below. In order to participate you must purchase some Risk (RSK) tokens.
-    The RSK token is an integral part of the game - you will battle against the other team by riskign tokens each round. The teams
+    The RSK token is an integral part of the game - you will battle against the other team by risking tokens each round. The team
     who risked the most tokens goes home as the winner - getting their tokens back and 50% of the other teams tokens (The other 50% are burned).
   </p>
+  <p> Choose your team wisely! Once you select a team below, you will not be able to change your team </p>
   <br>
-  <h3> Team
   <br>
-  <!-- <select id = "team_choice">
-  <option value="1">Red</option>
-  <option value="2">Blue</option>
-  </select> -->
+  <h2> Tokens (1ETH = 1000 RSK) </h2>
   <br>
-  <!-- Rectangular switch -->
-  <div id=button_switch>
-    <button onclick="" type="button" class="red_button">Red</button>
-    <button onclick="" type="button" class="blue_button">Blue</button>
-  </div>
   <form>
-    Tokens (1ETH = 1000 RSK):<br>
-    <input type="text" name="token_amount" id='token_amount'><br>
+    <input type="text" name="token_amount" id='token_amount'></input>
   </form>
-  <button type="register" onclick="App.register()"> Register</button>
+  <br><br>
+  <h2> Team
+  <br>
+  <button onclick="App.register(1)" type="button" class="team_choice_red">Red</button>
+  <button onclick="App.register(2)" type="button" class="team_choice_blue">Blue</button>
   <br>
 
 

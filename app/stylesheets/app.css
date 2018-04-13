@@ -2,6 +2,7 @@ body {
   margin-left: 25%;
   margin-right: 25%;
   font-family: "Open Sans", sans-serif;
+  text-align: center;
 }
 
 .main_content {
@@ -44,14 +45,6 @@ h3 {
   font-size: 24px;
 }
 
-.black {
-  color: black;
-}
-
-#balance {
-  color: black;
-}
-
 .hint {
   color: #666;
 }
@@ -73,8 +66,25 @@ button.main_nav {
 }
 
 button.main_nav:hover {
-    background-color:black;
-    color: white;
+    background-color:white;
+    color: #02cc1c;
+}
+
+
+button.def_button {
+  text-align: centre;
+  font-size: 18px;
+  background-color: Transparent;
+  color: black;
+  background-color: white;
+  outline:none;
+  border:none;
+  padding:10px;
+  margin-left: 0%;
+}
+
+button.def_button:hover {
+  color:#02cc1c;
 }
 
 span.main_nav {
@@ -82,30 +92,38 @@ span.main_nav {
   font-style: italic;
 }
 
-.button_switch {
-  text-align: center;
-  background: #ffffff;
-  height: 50px;
-  width: 200px;
-}
-.red_button {
-  background: red;
-  outline: none;
-  border: none;
-  color: white;
-  margin-right: 0%;
-  margin-left: 0%;
-  height: 50px;
-  width:100px;
+button.team_choice_red {
+    text-align: centre;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: normal;
+    background-color: Transparent;
+    color: #000000;
+    outline:none;
+    border:none;
+    padding:5px;
+    margin-left: 0%;
 }
 
-.blue_button {
-  background: blue;
-  outline: none;
-  border: none;
-  color: white;
-  margin-left: 0%;
-  margin-right: 0%;
-  height: 50px;
-  width:100px;
+button.team_choice_red:hover {
+    background-color:white;
+    color: red;
+}
+
+button.team_choice_blue {
+    text-align: centre;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: normal;
+    background-color: Transparent;
+    color: #000000;
+    outline:none;
+    border:none;
+    padding:5px;
+    margin-left: 0%;
+}
+
+button.team_choice_blue:hover {
+    background-color:white;
+    color: blue;
 }

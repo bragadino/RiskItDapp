@@ -64,9 +64,9 @@ window.App = {
   checkRegistered: function(team) {
     if ((team != 1 && team != 2) && (window.location.href == baseURL || window.location.href == baseURL+"index.html")) {
       //tell the player they need to Register
-      //alert("You need to register before playing!");
-      //Show register page
-      //window.location.href = "register.html";
+      var warning = document.getElementById("warnings").innerHTML = "Uh Oh! Looks like you havent registered. Please check out the register tab above to register"
+    } else {
+      //Display game content
     }
   },
 
@@ -242,25 +242,25 @@ window.App = {
 
   },
 
-  register: function() {
-    var self = this;
-      var team = document.getElementById("team_checkbox");
+  register: function(team) {
+      var self = this;
+      //var team = document.getElementById("team_switch");
       //var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
       var tokens = parseInt(document.getElementById("token_amount").value);
       //this.setStatus("Initiating transaction..."+teamInt+" ");
-      alert(team.value.valueOf());
+      alert(team);
       var meta;
-      // MetaCoin.deployed().then(function(instance) {
-      //   meta = instance;
-      //   var weiValue = web3.toWei(tokens * (1/1000), 'ether');
-      //   return meta.register(teamInt, tokens, {from: account, value: weiValue});
-      // }).then(function() {
-      //   //self.setStatus("Transaction complete! Registed for team "+teamInt);
-      //   self.refreshGameDetails();
-      // }).catch(function(e) {
-      //   console.log(e);
-      //   //self.setStatus("Error sending coin; see log.");
-      // });
+      MetaCoin.deployed().then(function(instance) {
+        meta = instance;
+        var weiValue = web3.toWei(tokens * (1/1000), 'ether');
+        return meta.register(teamInt, tokens, {from: account, value: weiValue});
+      }).then(function() {
+        //self.setStatus("Transaction complete! Registed for team "+teamInt);
+        self.refreshGameDetails();
+      }).catch(function(e) {
+        console.log(e);
+        //self.setStatus("Error sending coin; see log.");
+      });
     },
 
   risk: function() {
@@ -318,7 +318,8 @@ window.App = {
     }).catch(function (e) {
       console.log("Failed trying to end round");
     });
-  }
+  },
+
 
 };
 
