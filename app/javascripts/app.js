@@ -40,7 +40,6 @@ window.App = {
       accounts = accs;
       account = accounts[0];
       self.getTeam(self.checkRegistered);
-      //self.refreshGameDetails();
     });
   },
 
@@ -50,7 +49,7 @@ window.App = {
   },
 
   clickedRegister: function() {
-    window.location.href = "register.html"
+    window.location.href = "register.html";
   },
 
   clickedFAQ: function() {
@@ -58,7 +57,7 @@ window.App = {
   },
 
   clickedGameStats: function() {
-    window.location.href = "gamestats.html"
+    window.location.href = "gamestats.html";
   },
 
   checkRegistered: function(team) {
@@ -80,7 +79,7 @@ window.App = {
     this.getTeamCaptains();
     this.getTokensLeft();
     this.getRisked(); //todo this is just for testing, remove later
-    this.getRound();
+    this.getRound(this.setRound);
     this.refreshBalance();
     this.refreshNav(team, 100, 1);
   },
@@ -94,6 +93,32 @@ window.App = {
       var balance_element = document.getElementById("you");
       balance_element.innerHTML = String(account);
   })},
+
+  setGameRoundAndTime: function() {
+    var self = this;
+    var meta;
+    MetaCoin.deployed().then(function(instance) {
+      meta = instance;
+     return meta.getLastGameTime.call({from: account});
+    }).then(function(value) {
+      var endingTime = value.valueOf();
+      //alert(endingTime);
+      document.getElementById("time_left").innerHTML = endingTime;
+      return endingTime
+    }).then(function (value) {
+      //Get the current web3 eth time
+      var blockNumber = web3.eth.getBlockNumber(function (error, result1) {
+        alert(result1);
+        var blockTime = web3.eth.getBlock(result1, function(error, result2) {
+          alert(result2.timestamp);
+          var lastTime = document.getElementById("time_left").innerHTML;
+          //Convert 5 days to seconds to mins, and seconds to mins
+          var timeLeft = 5*24*60* - ((result2.timestamp - lastTime)/60);
+          document.getElementById("time_left").innerHTML = "Round Ending in "+timeLeft+" minutes";
+        });
+      });
+    });
+  },
 
   getTeamPoints: function() {
     var self = this;
@@ -174,16 +199,22 @@ window.App = {
     });
   },
 
-  getRound: function() {
+  getRound: function(onSucess) {
     var self = this;
     var meta;
     MetaCoin.deployed().then(function(instance) {
       meta = instance;
      return meta.gameRound.call({from: account});
     }).then(function(value) {
-      var game_round = document.getElementById("game_round");
-      game_round.innerHTML = value.valueOf();
+      // var game_round = document.getElementById("game_round");
+      // game_round.innerHTML = value.valueOf();
+      onSucess(value.valueOf());
     });
+  },
+
+  setRound: function(round) {
+    var game_round = document.getElementById("game_round");
+    game_round.innerHTML = round;
   },
 
   refreshBalance: function() {
@@ -248,7 +279,7 @@ window.App = {
       //var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
       var tokens = parseInt(document.getElementById("token_amount").value);
       //this.setStatus("Initiating transaction..."+teamInt+" ");
-      alert(team);
+      var teamInt = parseInt(team);
       var meta;
       MetaCoin.deployed().then(function(instance) {
         meta = instance;

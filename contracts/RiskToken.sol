@@ -116,7 +116,7 @@ contract RiskToken is ERC20Interface, Owned {
       uint redAmount;
       uint blueAmount;
       uint8 winner;
-      uint endingBlock;
+      uint endingTime;
     }
     //Team Captains -> Team captain gets one token each time their team member gets a win.
     //They are the player who holds the most tokens on each team.
@@ -154,8 +154,8 @@ contract RiskToken is ERC20Interface, Owned {
         redRisked = 0;
         gameRound = 0;
         lastGame.winner = 0;
-        decimals = 0;
-        lastGame.endingBlock = now;
+        decimals = 18;
+        lastGame.endingTime = now;
         _totalSupply = 200000; //* 10**uint(decimals);
         //balances[owner] = _totalSupply;
         //Transfer(address(0), owner, _totalSupply);
@@ -232,11 +232,11 @@ contract RiskToken is ERC20Interface, Owned {
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
       //Round requirements for time?
-      //require(now >= lastGame.endingBlock + 5 days);
-      require(now >= lastGame.endingBlock + 5 minutes); //todo remove after testing
+      //require(now >= lastGame.endingTime + 5 days);
+      require(now >= lastGame.endingTime + 5 minutes); //todo remove after testing
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
-      lastGame.endingBlock = block.number;
+      lastGame.endingTime = now;
       lastGame.round = gameRound;
       gameRound++;
       if (redRisked > blueRisked) {
@@ -287,6 +287,10 @@ contract RiskToken is ERC20Interface, Owned {
     require(msg.value.mul(riskPerEth) >= tokensToPurchase); //Ensure tokens match token price
     require(tokensDistributed.add(tokensToPurchase) <= _totalSupply); //Make sure total supply hasnt been exceeded
     //require(redTotalPlayers - blueTotalPlayers <= 9) //if there are 10 more players on one team, cant register for that team TODO should I do this
+    //Send ETH to contract owner
+    if(!owner.send(msg.value)) {
+      throw;
+    }
     playerTeams[msg.sender] = team; //register on red team or blue team (Red = 1, Blue = 2)
     //Update team numbers
     if (team == 1) {
@@ -296,15 +300,15 @@ contract RiskToken is ERC20Interface, Owned {
     }
     balances[msg.sender] += tokensToPurchase; //Give them the tokens
     tokensDistributed += tokensToPurchase;
-    //Send ETH to contract owner
-    if(!owner.send(msg.value)) {
-      throw;
-    }
     }
 
     //Check which team you are
     function getTeam() returns (uint team){
       return playerTeams[msg.sender];
+    }
+
+    function getLastGameTime() returns (uint time) {
+      return lastGame.endingTime;
     }
 
 
