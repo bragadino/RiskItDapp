@@ -307,7 +307,7 @@ contract RiskToken is ERC20Interface, Owned {
       return playerTeams[msg.sender];
     }
 
-    function getLastGameTime() returns (uint time) {
+    function getRoundTimeLeft() returns (uint time) {
       return lastGame.endingTime;
     }
 

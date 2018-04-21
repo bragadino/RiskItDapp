@@ -99,25 +99,27 @@ window.App = {
     var meta;
     MetaCoin.deployed().then(function(instance) {
       meta = instance;
-     return meta.getLastGameTime.call({from: account});
+     return meta.lastGame.call({from: account});
     }).then(function(value) {
-      var endingTime = value.valueOf();
-      //alert(endingTime);
-      document.getElementById("time_left").innerHTML = endingTime;
-      return endingTime
+      var milliseconds = (new Date).getTime();
+      var bigNumMilli = new web3.BigNumber(String(milliseconds));
+      var endingTime = new web3.BigNumber(value.valueOf()[4]);
+      document.getElementById("time_left").innerHTML = "Time Left: "+ (endingTime.minus(bigNumMilli)).div(1000);
+      return meta.gameRound.call({from: account});
     }).then(function (value) {
+      var currentRound = value.valueOf();
+      document.getElementById("game_round").innerHTML = "Current Round: "+currentRound;
       //Get the current web3 eth time
-      var blockNumber = web3.eth.getBlockNumber(function (error, result1) {
-        alert(result1);
-        var blockTime = web3.eth.getBlock(result1, function(error, result2) {
-          alert(result2.timestamp);
-          var lastTime = document.getElementById("time_left").innerHTML;
-          //Convert 5 days to seconds to mins, and seconds to mins
-          var timeLeft = 5*24*60* - ((result2.timestamp - lastTime)/60);
-          document.getElementById("time_left").innerHTML = "Round Ending in "+timeLeft+" minutes";
-        });
+    //   var blockNumber = web3.eth.getBlockNumber(function (error, result1) {
+    //     var blockTime = web3.eth.getBlock(result1, function(error, result2) {
+    //       alert(result2.timestamp);
+    //       var lastTime = document.getElementById("time_left").innerHTML;
+    //       //Convert 5 days to seconds to mins, and seconds to mins
+    //       alert(result2.timestamp - lastTime);
+    //       var timeLeft = 5*24*60* - ((result2.timestamp - lastTime)/60);
+    //       document.getElementById("time_left").innerHTML = "Round Ending in "+timeLeft+" minutes";
+    //     });
       });
-    });
   },
 
   getTeamPoints: function() {
