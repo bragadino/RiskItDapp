@@ -53,7 +53,7 @@ window.App = {
   },
 
   clickedFAQ: function() {
-    alert("FAQS not yet available");
+    window.location.href = "faqs.html";
   },
 
   clickedGameStats: function() {
@@ -103,22 +103,24 @@ window.App = {
     }).then(function(value) {
       var milliseconds = (new Date).getTime();
       var bigNumMilli = new web3.BigNumber(String(milliseconds));
-      var endingTime = new web3.BigNumber(value.valueOf()[4]);
-      document.getElementById("time_left").innerHTML = "Time Left: "+ (endingTime.minus(bigNumMilli)).div(1000);
+      var bigNumSeconds = bigNumMilli.div(1000);
+      var lastRoundStart = new web3.BigNumber(value.valueOf()[4]);
+      var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to miliseconds
+      var timeDiff = endingTime.minus(bigNumSeconds); //time diff in seconds
+      //Calculate days, hours, mins, seconds -> once each section has been accounted for, remove it from the seconds known by the system
+      var days = parseInt(timeDiff.div(60*60*24));
+      timeDiff = timeDiff.minus(days*60*60*24);
+      var hours = parseInt(timeDiff.div(60*60));
+      timeDiff = timeDiff.minus(hours*60*60);
+      var mins = parseInt(timeDiff.div(60));
+      timeDiff = timeDiff.minus(mins*60);
+      var seconds = parseInt(timeDiff.div(1));
+      //alert(timeDiff);
+      document.getElementById("time_left").innerHTML = "Time Left: "+days+":"+hours+":"+mins+":"+seconds;
       return meta.gameRound.call({from: account});
     }).then(function (value) {
       var currentRound = value.valueOf();
       document.getElementById("game_round").innerHTML = "Current Round: "+currentRound;
-      //Get the current web3 eth time
-    //   var blockNumber = web3.eth.getBlockNumber(function (error, result1) {
-    //     var blockTime = web3.eth.getBlock(result1, function(error, result2) {
-    //       alert(result2.timestamp);
-    //       var lastTime = document.getElementById("time_left").innerHTML;
-    //       //Convert 5 days to seconds to mins, and seconds to mins
-    //       alert(result2.timestamp - lastTime);
-    //       var timeLeft = 5*24*60* - ((result2.timestamp - lastTime)/60);
-    //       document.getElementById("time_left").innerHTML = "Round Ending in "+timeLeft+" minutes";
-    //     });
       });
   },
 
@@ -288,7 +290,9 @@ window.App = {
         var weiValue = web3.toWei(tokens * (1/1000), 'ether');
         return meta.register(teamInt, tokens, {from: account, value: weiValue});
       }).then(function() {
-        //self.setStatus("Transaction complete! Registed for team "+teamInt);
+        //Display index page
+        window.location.href = "index.html";
+        //Refresh
         self.refreshGameDetails();
       }).catch(function(e) {
         console.log(e);
