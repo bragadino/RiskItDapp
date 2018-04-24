@@ -105,7 +105,8 @@ window.App = {
       var bigNumMilli = new web3.BigNumber(String(milliseconds));
       var bigNumSeconds = bigNumMilli.div(1000);
       var lastRoundStart = new web3.BigNumber(value.valueOf()[4]);
-      var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to miliseconds
+      //var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to seconds
+      var endingTime = lastRoundStart.plus(5*60); //5 mins for testing
       var timeDiff = endingTime.minus(bigNumSeconds); //time diff in seconds
       //Calculate days, hours, mins, seconds -> once each section has been accounted for, remove it from the seconds known by the system
       var days = parseInt(timeDiff.div(60*60*24));

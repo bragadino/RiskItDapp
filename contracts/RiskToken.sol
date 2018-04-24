@@ -135,7 +135,8 @@ contract RiskToken is ERC20Interface, Owned {
     //Current amount risked on this game TODO Change to private after testing
     uint public blueRisked;
     uint public redRisked;
-    //Risked amount per player for this round -> note that this is reset when a
+    uint public roundLength; //round length (in days)
+    //Risked amount per player for this round
     mapping(address => Risk) playersRisks;
     //Game Counter
     uint public gameRound;
@@ -154,6 +155,7 @@ contract RiskToken is ERC20Interface, Owned {
         redRisked = 0;
         gameRound = 0;
         lastGame.winner = 0;
+        roundLength = 7;
         decimals = 18;
         lastGame.endingTime = now;
         _totalSupply = 200000; //* 10**uint(decimals);
@@ -231,9 +233,8 @@ contract RiskToken is ERC20Interface, Owned {
 
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
-      //Round requirements for time?
-      //require(now >= lastGame.endingTime + 5 days);
-      require(now >= lastGame.endingTime + 5 minutes); //todo remove after testing
+      require(now >= lastGame.endingTime + 5 * 1 minutes);
+      //require(now >= lastGame.endingTime + roundLength * 1 days); //todo remove after testing
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
       lastGame.endingTime = now;
@@ -241,8 +242,10 @@ contract RiskToken is ERC20Interface, Owned {
       gameRound++;
       if (redRisked > blueRisked) {
         lastGame.winner = 1;
+        redScore++;
       } else if (blueRisked > redRisked) {
         lastGame.winner = 2;
+        blueScore++;
       } else {
         lastGame.winner = 0;
       }
@@ -254,9 +257,21 @@ contract RiskToken is ERC20Interface, Owned {
     function claimWinnings() {
       require(lastGame.winner != 0);
       var risk = playersRisks[msg.sender];
-      if (risk.round == gameRound - 1 && playerTeams[msg.sender] == lastGame.winner) {
+      var team = playerTeams[msg.sender];
+      if (risk.round == gameRound - 1 && team == lastGame.winner) {
         //return their amount + the fair share of the other teams winngins
-        balances[msg.sender] += risk.amount; //+ (div(riskAmount,) todo - how to calc how much of other teams winnings they get
+        uint extraWinnings = 0;
+        uint ratio = 0;
+        if (team == 1) {
+          //red team
+          ratio = risk.amount.div(lastGame.redAmount);
+          extraWinnings = ratio.mul(lastGame.blueAmount);
+        } else if (team == 2) {
+          //blue team
+          ratio = risk.amount.div(lastGame.blueAmount);
+          extraWinnings = ratio.mul(lastGame.redAmount);
+        }
+        balances[msg.sender] += risk.amount + extraWinnings; //todo - how to calc how much of other teams winnings they get
         //Reset so players cant double claimWinnings
         playersRisks[msg.sender].amount = 0;
         playersRisks[msg.sender].round = 0;

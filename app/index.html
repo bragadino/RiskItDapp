@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Risk - An Ethereum Based Team Battle</title>
+  <title>RiskIt - An Ethereum Based Team Battle</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
 </head>
@@ -12,26 +12,34 @@
   <button onclick="App.clickedGameStats()" type="button" class="main_nav">Game Stats</button>
 </div>
 <body onload="App.setGameRoundAndTime()">
-  <h1>Welcome to Risk - Ethereum Based Team Game</h1><br>
-  <h3 id="warnings"> </h3>
-  <h3 id="game_round">Current Round: </h3>
-  <h3 id="time_left">Ending in: </h3>
-  <h2> Play </h2>
   <br>
+  <h1>Welcome to RiskIt - An Ethereum Based Team Game</h1><br>
+  <div class="default_box">
+    <h3 id="warnings" class=homepage_game_details> </h3>
+    <h3 id="game_round" class=homepage_game_details>Current Round: </h3>
+    <h3 id="time_left" class=homepage_game_details>Ending in: </h3>
+  <br>
+  <div class="index_inline_elements"
+    <br>
+    <button type="risk" onclick="App.endRound()" class="def_button"> End Round</button>
+    <br>
+  </div>
+  <div class="index_inline_elements"
+    <br>
+    <button type="risk" onclick="App.claimWinnings()" class="def_button"> Claim Winnings</button>
+  </div>
+  <br><br>
+  </div>
+  <br><br>
+  <div class = "default_box">
+  <h3> Play </h3>
   <form>
-    Tokens to Risk (Min 1, Max 10000?):<br>
-    <input type="text" name="tokens_to_risk" id='tokens_to_risk'><br>
+    <input type="text" name="tokens_to_risk" id='tokens_to_risk' placeholder="Number of tokens to risk..."><br>
   </form>
+  <br>
   <button type="risk" onclick="App.risk()" class="def_button"> Risk it!</button>
   <br>
-
-  <h2> End Round </h2>
   <br>
-  <button type="risk" onclick="App.endRound()" class="def_button"> End Round</button>
-  <br>
-
-  <h2> Claim Winnings</h2>
-  <br>
-  <button type="risk" onclick="App.claimWinnings()" class="def_button"> Claim Winnings</button>
+</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Risk - Ethereum Based Team Battle</title>
+  <title>RiskIt - An Ethereum Based Team Battle</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
 </head>
@@ -12,8 +12,10 @@
   <button onclick="App.clickedGameStats()" type="button" class="main_nav">Game Stats</button>
 </div>
 <body>
+  <br>
   <h1> Register </h1>
-  <p> Welcome to Risk, an ERC20 based team game where you can join the never ending battle of
+  <div class="default_box">
+  <p> Welcome to RiskIt, an ERC20 based team game where you can join the never ending battle of
     Red vs Blue!
   </p>
   <p> To play, you must first register with a team below. In order to participate you must purchase some Risk (RSK) tokens.
@@ -23,17 +25,19 @@
   <p> Choose your team wisely! Once you select a team below, you will not be able to change your team </p>
   <br>
   <br>
-  <h2> Tokens (1ETH = 1000 RSK) </h2>
+  </div>
+  <br><br>
+  <div class="default_box">
   <br>
   <form>
-    <input type="text" name="token_amount" id='token_amount'></input>
+    <input type="text" name="token_amount" id='token_amount' placeholder="Tokens to purchase (1000 RSK = 1 ETH)"></input>
   </form>
-  <br><br>
-  <h2> Team
+  <h3> Team
   <br>
   <button onclick="App.register(1)" type="button" class="team_choice_red">Red</button>
   <button onclick="App.register(2)" type="button" class="team_choice_blue">Blue</button>
   <br>
+</div>
 
 
 
