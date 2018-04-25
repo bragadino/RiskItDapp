@@ -118,11 +118,7 @@ contract RiskToken is ERC20Interface, Owned {
       uint8 winner;
       uint endingTime;
     }
-    //Team Captains -> Team captain gets one token each time their team member gets a win.
-    //They are the player who holds the most tokens on each team.
-    address public redCaptain;
-    address public blueCaptain;
-    //Team 1 = Red, Team 2 = Blue (As default val is 0)
+    //Team 1 = Red, Team 2 = Blue
     mapping(address => uint) playerTeams;
     //Current Score for each team
     uint public redScore;
@@ -133,8 +129,8 @@ contract RiskToken is ERC20Interface, Owned {
     uint public tokensDistributed;
     uint public riskPerEth; //1 ETH = 1000 Risk
     //Current amount risked on this game TODO Change to private after testing
-    uint public blueRisked;
-    uint public redRisked;
+    uint private blueRisked;
+    uint private redRisked;
     uint public roundLength; //round length (in days)
     //Risked amount per player for this round
     mapping(address => Risk) playersRisks;
@@ -153,12 +149,12 @@ contract RiskToken is ERC20Interface, Owned {
         riskPerEth = 1000;
         blueRisked = 0;
         redRisked = 0;
-        gameRound = 0;
+        gameRound = 1;
         lastGame.winner = 0;
         roundLength = 7;
-        decimals = 18;
+        decimals = 0;
         lastGame.endingTime = now;
-        _totalSupply = 200000; //* 10**uint(decimals);
+        _totalSupply = 200000;
         //balances[owner] = _totalSupply;
         //Transfer(address(0), owner, _totalSupply);
     }
@@ -278,24 +274,6 @@ contract RiskToken is ERC20Interface, Owned {
       }
     }
 
-    //Claim Team Captain
-    function claimCaptain(uint team) {
-      require(team == 1 || team == 2);
-      if (team == 1) { //Red team
-        if (balances[redCaptain] < balances[msg.sender] && playerTeams[msg.sender] == team) {
-          redCaptain = msg.sender;
-        } else {
-          throw;
-        }
-      } else { //Blue team
-        if (balances[blueCaptain] < balances[msg.sender] && playerTeams[msg.sender] == team) {
-          blueCaptain = msg.sender;
-        } else {
-          throw;
-        }
-      }
-    }
-
     //Register as a player
     function register(uint team, uint tokensToPurchase) payable {
     require(team == 1 || team == 2);
@@ -315,6 +293,7 @@ contract RiskToken is ERC20Interface, Owned {
     }
     balances[msg.sender] += tokensToPurchase; //Give them the tokens
     tokensDistributed += tokensToPurchase;
+    Transfer(address(0), msg.sender, tokensToPurchase);
     }
 
     //Check which team you are

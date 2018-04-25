@@ -76,9 +76,9 @@ window.App = {
     this.showAccount();
     this.getTeamPoints();
     this.getTeamNums();
-    this.getTeamCaptains();
+    //this.getTeamCaptains();
     this.getTokensLeft();
-    this.getRisked(); //todo this is just for testing, remove later
+    //this.getRisked(); //todo this is just for testing, remove later
     this.getRound(this.setRound);
     this.refreshBalance();
     this.refreshNav(team, 100, 1);
@@ -105,8 +105,8 @@ window.App = {
       var bigNumMilli = new web3.BigNumber(String(milliseconds));
       var bigNumSeconds = bigNumMilli.div(1000);
       var lastRoundStart = new web3.BigNumber(value.valueOf()[4]);
-      //var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to seconds
-      var endingTime = lastRoundStart.plus(5*60); //5 mins for testing
+      var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to seconds
+      //var endingTime = lastRoundStart.plus(5*60); //5 mins for testing
       var timeDiff = endingTime.minus(bigNumSeconds); //time diff in seconds
       //Calculate days, hours, mins, seconds -> once each section has been accounted for, remove it from the seconds known by the system
       var days = parseInt(timeDiff.div(60*60*24));
@@ -219,7 +219,7 @@ window.App = {
 
   setRound: function(round) {
     var game_round = document.getElementById("game_round");
-    game_round.innerHTML = round;
+    game_round.innerHTML = "Current Round: "+round;
   },
 
   refreshBalance: function() {
