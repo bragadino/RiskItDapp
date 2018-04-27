@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "lite-server",
     "dev": "lite-server",
     "test": "lite-server"
   },
