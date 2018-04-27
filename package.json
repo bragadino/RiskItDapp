@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "start": "lite-server",
+    "start": "npm run ropsten",
     "dev": "lite-server",
     "test": "lite-server"
   },
