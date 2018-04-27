@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "start": "npm run ropsten",
-    "dev": "lite-server",
+    "start": "npm run dev",
+    "dev": "webpack-dev-server",
     "test": "lite-server"
   },
   "author": "Douglas von Kohorn",
