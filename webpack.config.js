@@ -9,7 +9,7 @@ module.exports = {
   },
 
   devServer: {
-      port: (process.env.PORT || 8081)
+      port: (process.env.PORT)
   },
 
   plugins: [
