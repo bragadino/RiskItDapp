@@ -47,17 +47,6 @@ contract ERC20Interface {
     event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
 }
 
-
-// ----------------------------------------------------------------------------
-// Contract function to receive approval and execute function in one call
-//
-// Borrowed from MiniMeToken
-// ----------------------------------------------------------------------------
-contract ApproveAndCallFallBack {
-    function receiveApproval(address from, uint256 tokens, address token, bytes data) public;
-}
-
-
 // ----------------------------------------------------------------------------
 // Owned contract
 // ----------------------------------------------------------------------------
@@ -304,10 +293,5 @@ contract RiskToken is ERC20Interface, Owned {
     function getRoundTimeLeft() returns (uint time) {
       return lastGame.endingTime;
     }
-
-
-
-
-
 
 }

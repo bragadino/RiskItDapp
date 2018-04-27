@@ -9,7 +9,14 @@ import { default as contract } from 'truffle-contract'
 import metacoin_artifacts from '../../build/contracts/RiskToken.json'
 
 // MetaCoin is our usable abstraction, which we'll use through the code below.
-var MetaCoin = contract(metacoin_artifacts);
+//Try connect to our testnet contract
+// if (typeof web3 !== 'undefined') {
+//     web3 = new Web3(web3.currentProvider);
+//     console.log("existing web3: provider " + web3.currentProvider);
+// } else {
+//     web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/access_token"));
+//     console.log("new provider " + web3);
+// }
 
 // The following code is simple to show off interacting with your contracts.
 // As your needs grow you will likely need to change its form and structure.
@@ -17,14 +24,15 @@ var MetaCoin = contract(metacoin_artifacts);
 var accounts;
 var account;
 var baseURL = "http://localhost:8080/";
+//var MetaCoin = contract(metacoin_artifacts);
+var risktokenContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"tokensDistributed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"getRoundTimeLeft","outputs":[{"name":"time","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"endRound","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"roundLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"getTeam","outputs":[{"name":"team","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"riskPerEth","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastGame","outputs":[{"name":"round","type":"uint256"},{"name":"redAmount","type":"uint256"},{"name":"blueAmount","type":"uint256"},{"name":"winner","type":"uint8"},{"name":"endingTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"blueTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gameRound","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"claimWinnings","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"blueScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"team","type":"uint256"},{"name":"tokensToPurchase","type":"uint256"}],"name":"register","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"riskAmount","type":"uint256"}],"name":"riskIt","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}]);
+var MetaCoin = risktokenContract.at("0xE2113D9D981F02c8f0850771959185D5B8D1C8f0");
+
+
 window.App = {
+
   start: function() {
     var self = this;
-
-    // Bootstrap the MetaCoin abstraction for Use.
-    MetaCoin.setProvider(web3.currentProvider);
-
-    // Get the initial account balance so it can be displayed.
     web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         alert("There was an error fetching your accounts.");
@@ -35,12 +43,14 @@ window.App = {
         alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
         return;
       }
-
-
       accounts = accs;
       account = accounts[0];
-      self.getTeam(self.checkRegistered);
+      //alert(account);
     });
+    // Bootstrap the MetaCoin abstraction for Use.
+    //MetaCoin.setProvider(web3.currentProvider);
+    console.log(web3.currentProvider);
+    self.getTeam(self.checkRegistered);
   },
 
   //Nav Bar Functions
@@ -80,140 +90,171 @@ window.App = {
     this.getTokensLeft();
     //this.getRisked(); //todo this is just for testing, remove later
     this.getRound(this.setRound);
-    this.refreshBalance();
-    this.refreshNav(team, 100, 1);
+    //this.refreshBalance();
+    //this.refreshNav(team, 100, 1);
   },
 
   showAccount: function() {
-    var self = this;
+    web3.eth.getAccounts(function(err, accs) {
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
 
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      var balance_element = document.getElementById("you");
-      balance_element.innerHTML = String(account);
-  })},
+      if (accs.length == 0) {
+        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+        return;
+      }
+    accounts = accs;
+    account = accounts[0];
+    var self = this;
+    var balance_element = document.getElementById("you");
+    balance_element.innerHTML = String(accs);
+    //Call refresh balance function as we now have the accounts
+    MetaCoin.balanceOf.call(account, {from:account}, function(error, result) {
+      if (!error) {
+        var balance_element = document.getElementById("balance");
+        balance_element.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting balance");
+      }
+    });
+  });
+},
 
   setGameRoundAndTime: function() {
     var self = this;
     var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.lastGame.call({from: account});
-    }).then(function(value) {
-      var milliseconds = (new Date).getTime();
-      var bigNumMilli = new web3.BigNumber(String(milliseconds));
-      var bigNumSeconds = bigNumMilli.div(1000);
-      var lastRoundStart = new web3.BigNumber(value.valueOf()[4]);
-      var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to seconds
-      //var endingTime = lastRoundStart.plus(5*60); //5 mins for testing
-      var timeDiff = endingTime.minus(bigNumSeconds); //time diff in seconds
-      //Calculate days, hours, mins, seconds -> once each section has been accounted for, remove it from the seconds known by the system
-      var days = parseInt(timeDiff.div(60*60*24));
-      timeDiff = timeDiff.minus(days*60*60*24);
-      var hours = parseInt(timeDiff.div(60*60));
-      timeDiff = timeDiff.minus(hours*60*60);
-      var mins = parseInt(timeDiff.div(60));
-      timeDiff = timeDiff.minus(mins*60);
-      var seconds = parseInt(timeDiff.div(1));
-      //alert(timeDiff);
-      document.getElementById("time_left").innerHTML = "Time Left: "+days+":"+hours+":"+mins+":"+seconds;
-      return meta.gameRound.call({from: account});
-    }).then(function (value) {
-      var currentRound = value.valueOf();
-      document.getElementById("game_round").innerHTML = "Current Round: "+currentRound;
-      });
-  },
+    MetaCoin.lastGame.call({from: account}, function(error, result) {
+      if (!error) {
+        var milliseconds = (new Date).getTime();
+        var bigNumMilli = new web3.BigNumber(String(milliseconds));
+        var bigNumSeconds = bigNumMilli.div(1000);
+        var lastRoundStart = new web3.BigNumber(result.valueOf()[4]);
+        var endingTime = lastRoundStart.plus(5*60*60*24); //5 days to seconds
+        //var endingTime = lastRoundStart.plus(5*60); //5 mins for testing
+        var timeDiff = endingTime.minus(bigNumSeconds); //time diff in seconds
+        //Calculate days, hours, mins, seconds -> once each section has been accounted for, remove it from the seconds known by the system
+        var days = parseInt(timeDiff.div(60*60*24));
+        timeDiff = timeDiff.minus(days*60*60*24);
+        var hours = parseInt(timeDiff.div(60*60));
+        timeDiff = timeDiff.minus(hours*60*60);
+        var mins = parseInt(timeDiff.div(60));
+        timeDiff = timeDiff.minus(mins*60);
+        var seconds = parseInt(timeDiff.div(1));
+        //alert(timeDiff);
+        document.getElementById("time_left").innerHTML = "Time Left: "+days+":"+hours+":"+mins+":"+seconds;
+        MetaCoin.gameRound.call({from: account}, function(error, result) {
+          if (!error) {
+            var currentRound = result.valueOf();
+            document.getElementById("game_round").innerHTML = "Current Round: "+currentRound;
+          } else {
+            console.log("Error getting game round")
+          }
+          });
+      } else {
+        console.log("Error getting game time");
+      }
+  });
+},
 
   getTeamPoints: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.redTotalPlayers.call({from: account});
-    }).then(function(value) {
-      var red_players = document.getElementById("red_tp");
-      red_players.innerHTML = value.valueOf();
-      return meta.blueTotalPlayers.call({from: account});
-    }).then(function(value) {
-      var blue_players = document.getElementById("blue_tp");
-      blue_players.innerHTML = value.valueOf();
+    MetaCoin.redTotalPlayers.call({from: account}, function(error, result) {
+      if (!error) {
+        var red_players = document.getElementById("red_tp");
+        red_players.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting red team points");
+      }
+    });
+    MetaCoin.blueTotalPlayers.call({from: account}, function(error, result) {
+      if (!error) {
+        var blue_players = document.getElementById("blue_tp");
+        blue_players.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting blue team points");
+      }
     });
   },
 
   getTeamNums: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.redScore.call({from: account});
-    }).then(function(value) {
-      var red_score = document.getElementById("red_tpts");
-      red_score.innerHTML = value.valueOf();
-      return meta.blueScore.call({from: account});
-    }).then(function(value) {
-      var blue_score = document.getElementById("blue_tpts");
-      blue_score.innerHTML = value.valueOf();
+    MetaCoin.redScore.call({from: account}, function(error, result) {
+      if (!error) {
+        var red_score = document.getElementById("red_tpts");
+        red_score.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting red team numbers");
+      }
     });
+    MetaCoin.blueScore.call({from: account}, function(error,result) {
+      if (!error) {
+        var blue_score = document.getElementById("blue_tpts");
+        blue_score.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting blue team numbers");
+      }
+      });
   },
 
-  getTeamCaptains: function() {
-    var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.redCaptain.call({from: account});
-    }).then(function(value) {
-      var red_captain = document.getElementById("red_tc");
-      red_captain.innerHTML = value.valueOf();
-      return meta.blueCaptain.call({from: account});
-    }).then(function(value) {
-      var blue_captain = document.getElementById("blue_tc");
-      blue_captain.innerHTML = value.valueOf();
-    });
-  },
+  // getTeamCaptains: function() {
+  //   var self = this;
+  //   var meta;
+  //   MetaCoin.deployed().then(function(instance) {
+  //     meta = instance;
+  //    return meta.redCaptain.call({from: account});
+  //   }).then(function(value) {
+  //     var red_captain = document.getElementById("red_tc");
+  //     red_captain.innerHTML = value.valueOf();
+  //     return meta.blueCaptain.call({from: account});
+  //   }).then(function(value) {
+  //     var blue_captain = document.getElementById("blue_tc");
+  //     blue_captain.innerHTML = value.valueOf();
+  //   });
+  // },
 
   getTokensLeft: function() {
     var self = this;
     var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.tokensDistributed.call({from: account});
-    }).then(function(value) {
-      var balance_element = document.getElementById("tokens_left");
-      balance_element.innerHTML = 200000 - value.valueOf();
-    }).catch(function(e) {
-      console.log(e);
-      //self.setStatus("Error getting balance; see log.");
+    MetaCoin.tokensDistributed.call({from: account}, function(error, result) {
+      if (!error) {
+        var balance_element = document.getElementById("tokens_left");
+        balance_element.innerHTML = 200000 - result.valueOf();
+      } else {
+        console.log("Error getting tokens left");
+      }
     });
   },
 
   getRisked: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.redRisked.call({from: account});
-    }).then(function(value) {
-      var red_risked = document.getElementById("red_risked");
-      red_risked.innerHTML = value.valueOf();
-      return meta.blueRisked.call({from: account});
-    }).then(function(value) {
-      var blue_risked = document.getElementById("blue_risked");
-      blue_risked.innerHTML = value.valueOf();
+    MetaCoin.redRisked.call({from: account}, function(error, result) {
+      if (!error) {
+        var red_risked = document.getElementById("red_risked");
+        red_risked.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting red risked")
+      }
+    });
+    MetaCoin.blueRisked.call({from: account}, function(error, result) {
+      if (!error) {
+        var blue_risked = document.getElementById("blue_risked");
+        blue_risked.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting blue risked");
+      }
     });
   },
 
   getRound: function(onSucess) {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.gameRound.call({from: account});
-    }).then(function(value) {
-      // var game_round = document.getElementById("game_round");
-      // game_round.innerHTML = value.valueOf();
-      onSucess(value.valueOf());
+    MetaCoin.gameRound.call({from: account}, function(error, result) {
+      if (!error) {
+        onSucess(result.valueOf());
+      } else {
+        console.log("Error getting game round");
+      }
     });
   },
 
@@ -224,29 +265,24 @@ window.App = {
 
   refreshBalance: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-     return meta.balanceOf.call(account, {from: account});
-    }).then(function(value) {
-      var balance_element = document.getElementById("balance");
-      balance_element.innerHTML = value.valueOf();
-    }).catch(function(e) {
-      console.log(e);
-      //self.setStatus("Error getting balance; see log.");
+    MetaCoin.balanceOf.call(account, {from:account}, function(error, result) {
+      if (!error) {
+        var balance_element = document.getElementById("balance");
+        balance_element.innerHTML = result.valueOf();
+      } else {
+        console.log("Error getting balance");
+      }
     });
   },
 
   getTeam: function(onSucess) {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getTeam.call({from: account});
-    }).then(function(value) {
-      onSucess(value.valueOf());
-    }).catch(function(e) {
-      console.log(e);
+    MetaCoin.getTeam.call({from: account}, function(error, result) {
+      if (!error) {
+        onSucess(result.valueOf());
+      } else {
+        console.log("Error getting team");
+      }
     });
   },
 
@@ -285,84 +321,69 @@ window.App = {
       var tokens = parseInt(document.getElementById("token_amount").value);
       //this.setStatus("Initiating transaction..."+teamInt+" ");
       var teamInt = parseInt(team);
-      var meta;
-      MetaCoin.deployed().then(function(instance) {
-        meta = instance;
-        var weiValue = web3.toWei(tokens * (1/1000), 'ether');
-        return meta.register(teamInt, tokens, {from: account, value: weiValue});
-      }).then(function() {
-        //Display index page
-        window.location.href = "index.html";
-        //Refresh
-        self.refreshGameDetails();
-      }).catch(function(e) {
-        console.log(e);
-        //self.setStatus("Error sending coin; see log.");
+      var weiValue = web3.toWei(tokens * (1/1000), 'ether');
+      MetaCoin.register(teamInt, tokens, {from: account, value: weiValue}, function(error, value) {
+        if (!error) {
+          window.location.href = "index.html";
+          //Refresh
+          self.refreshGameDetails();
+        } else {
+          alert("Error registering. Please try again or contact the team for help")
+        }
       });
     },
 
   risk: function() {
     var self = this;
     var tokenAmount = parseInt(document.getElementById("tokens_to_risk").value);
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.riskIt(tokenAmount,{from: account});
-    }).then(function () {
-      self.refreshGameDetails();
-    }).catch(function(e) {
-      console.log(e);
+    MetaCoin.riskIt(tokenAmount,{from: account}, function(error, result) {
+      if (!error) {
+          self.refreshGameDetails();
+      } else {
+        console.log(error);
+        alert("Error during risk. Please try again");
+      }
     });
   },
 
-  claimCaptain: function() {
-    //get the users team
-    var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getTeam.call({from: account});
-    }).then(function(value) {
-      console.log(value.valueOf());
-      return meta.claimCaptain(value.valueOf(), {from:account});
-    }).then(function() {
-      self.refreshGameDetails();
-    }).catch(function(e) {
-      console.log(e);
-    });
-  },
+  // claimCaptain: function() {
+  //   //get the users team
+  //   var self = this;
+  //   MetaCoin.getTeam.call({from: account}, function(error, result));
+  //   }).then(function(value) {
+  //     console.log(value.valueOf());
+  //     return meta.claimCaptain(value.valueOf(), {from:account});
+  //   }).then(function() {
+  //     self.refreshGameDetails();
+  //   }).catch(function(e) {
+  //     console.log(e);
+  //   });
+  // },
 
   endRound: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.endRound({from: account});
-    }).then(function(value) {
-      console.log("Round Ended");
-    }).catch(function (e) {
-      console.log("Failed trying to end round");
+    MetaCoin.endRound({from: account}, function(error, result) {
+      if (!error) {
+        console.log("Round Ended");
+      } else {
+        console.log("Failed trying to end round");
+      }
     });
   },
 
   claimWinnings: function() {
     var self = this;
-    var meta;
-    MetaCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.claimWinnings({from: account});
-    }).then(function(value) {
-      console.log("Claimed Winnings");
-    }).catch(function (e) {
-      console.log("Failed trying to end round");
+    MetaCoin.claimWinnings({from: account}, function(error, result) {
+      if (!error) {
+        console.log("Claimed winnings");
+      } else {
+        console.log("Error trying to claim winnings");
+      }
     });
   },
 
 
 };
-
-
-
 
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
