@@ -5,9 +5,10 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --config webpack.prod.js",
+    "start": "node server.js",
     "dev": "webpack-dev-server",
-    "test": "lite-server"
+    "test": "lite-server",
+    "postinstall": "webpack -p"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -42,7 +43,8 @@
     "file-loader": "^0.11.2",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-merge": "^4.1.0",
-    "xml-loader": "^1.2.1"
+    "xml-loader": "^1.2.1",
+    "express": "^4.14.0",
   },
   "main": "truffle.js",
   "directories": {
