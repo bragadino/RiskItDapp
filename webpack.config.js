@@ -15,7 +15,12 @@ module.exports = {
       {from: './src/register.html', to: "register.html"},
       {from: './src/faqs.html', to: "faqs.html"},
     {from: './src/gamestats.html', to: 'gamestats.html'}
-    ])
+  ]),
+  new webpack.DefinePlugin({
+    "process.env": {
+      "NODE_ENV": JSON.stringify("production")
+    }
+  })
   ],
   module: {
     rules: [
