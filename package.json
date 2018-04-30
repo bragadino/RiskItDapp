@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --port $PORT",
     "dev": "webpack-dev-server",
     "test": "lite-server",
     "postinstall": "webpack -p"

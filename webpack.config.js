@@ -8,10 +8,6 @@ module.exports = {
     filename: 'app.js'
   },
 
-  devServer: {
-  port: (process.env.PORT || 8080)
-},
-
   plugins: [
     // Copy our app's index.html to the build folder.
     new CopyWebpackPlugin([
