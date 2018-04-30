@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "start": "node server.js",
+    "start": "webpack-dev-server",
     "dev": "webpack-dev-server",
     "test": "lite-server",
     "postinstall": "webpack -p"
