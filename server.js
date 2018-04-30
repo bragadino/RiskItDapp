@@ -1,12 +1,16 @@
-const express = require('express');
 const path = require('path');
-const port = process.env.PORT || 8080;
-var app = express();
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 8080;
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'src/index.html'));
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + 'build/index.html');
 });
-app.listen(port);
-console.log("Server started");
+
+app.listen(PORT, error => (
+  error
+    ? console.error(error)
+    : console.info(`Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`)
+));

@@ -4,8 +4,8 @@
   "description": "Frontend example using truffle v3",
   "scripts": {
     "lint": "eslint ./",
-    "build": "webpack",
-    "start": "webpack-dev-server --port $PORT",
+    "build": "webpack --config webpack.prod.config.js",
+    "start": "npm run build && NODE_ENV=production node server.js",
     "dev": "webpack-dev-server",
     "test": "lite-server",
     "postinstall": "webpack -p"
