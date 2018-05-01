@@ -5,8 +5,8 @@ const webpack = require('webpack');
 module.exports = {
   entry: './src/js/app.js',
   output: {
-    path: path.resolve(__dirname, 'dist/js'),
-    filename: 'app.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'js/app.js'
   },
 
   plugins: [
@@ -15,7 +15,8 @@ module.exports = {
       { from: './src/index.html', to: "index.html" },
       {from: './src/register.html', to: "register.html"},
       {from: './src/faqs.html', to: "faqs.html"},
-    {from: './src/gamestats.html', to: 'gamestats.html'}
+    {from: './src/gamestats.html', to: 'gamestats.html'},
+    {from: './src/stylesheets/app.css', to: "stylesheets/app.css"}
   ]),
   new webpack.DefinePlugin({
     "process.env": {
