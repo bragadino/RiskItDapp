@@ -141,11 +141,9 @@ contract RiskToken is ERC20Interface, Owned {
         gameRound = 1;
         lastGame.winner = 0;
         roundLength = 7;
-        decimals = 0;
+        decimals = 18;
         lastGame.endingTime = now;
-        _totalSupply = 200000;
-        //balances[owner] = _totalSupply;
-        //Transfer(address(0), owner, _totalSupply);
+        _totalSupply = 100000 * 10**uint(decimals);
     }
 
     function totalSupply() public constant returns (uint) {
@@ -197,7 +195,6 @@ contract RiskToken is ERC20Interface, Owned {
     //After the player period is finished, the team with the most risked tokens wins
     //The risked amount will be a private variable (can be seen but troublesome to do so)
     function riskIt(uint riskAmount)  {
-        //require(riskAmount <= 1000 && riskAmount >= 1);
         require(balances[msg.sender] >= riskAmount);
         var team = playerTeams[msg.sender];
         require(team == 1 || team == 2);
@@ -218,8 +215,8 @@ contract RiskToken is ERC20Interface, Owned {
 
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
-      require(now >= lastGame.endingTime + 5 * 1 minutes);
-      //require(now >= lastGame.endingTime + roundLength * 1 days); //todo remove after testing
+      //require(now >= lastGame.endingTime + 5 * 1 minutes);
+      require(now >= (lastGame.endingTime + roundLength * 1 days)); //todo remove after testing
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
       lastGame.endingTime = now;
@@ -265,24 +262,25 @@ contract RiskToken is ERC20Interface, Owned {
 
     //Register as a player
     function register(uint team, uint tokensToPurchase) payable {
-    require(team == 1 || team == 2);
-    require(msg.value.mul(riskPerEth) >= tokensToPurchase); //Ensure tokens match token price
-    require(tokensDistributed.add(tokensToPurchase) <= _totalSupply); //Make sure total supply hasnt been exceeded
-    //require(redTotalPlayers - blueTotalPlayers <= 9) //if there are 10 more players on one team, cant register for that team TODO should I do this
-    //Send ETH to contract owner
-    if(!owner.send(msg.value)) {
-      throw;
-    }
-    playerTeams[msg.sender] = team; //register on red team or blue team (Red = 1, Blue = 2)
-    //Update team numbers
-    if (team == 1) {
-      redTotalPlayers++;
-    } else if (team == 2) {
-      blueTotalPlayers++;
-    }
-    balances[msg.sender] += tokensToPurchase; //Give them the tokens
-    tokensDistributed += tokensToPurchase;
-    Transfer(address(0), msg.sender, tokensToPurchase);
+      require(playerTeams[msg.sender] != 1 && playerTeams[msg.sender] != 2);//require player isnt registered yet
+      require(team == 1 || team == 2);
+      require(msg.value.mul(riskPerEth) >= tokensToPurchase); //Ensure tokens match token price
+      require(tokensDistributed.add(tokensToPurchase) <= _totalSupply); //Make sure total supply hasnt been exceeded
+      //require(redTotalPlayers - blueTotalPlayers <= 9) //if there are 10 more players on one team, cant register for that team TODO should I do this
+      //Send ETH to contract owner
+      if(!owner.send(msg.value)) {
+        throw;
+      }
+      playerTeams[msg.sender] = team; //register on red team or blue team (Red = 1, Blue = 2)
+      //Update team numbers
+      if (team == 1) {
+        redTotalPlayers++;
+      } else if (team == 2) {
+        blueTotalPlayers++;
+      }
+      balances[msg.sender] += tokensToPurchase; //Give them the tokens
+      tokensDistributed += tokensToPurchase;
+      Transfer(address(0), msg.sender, tokensToPurchase);
     }
 
     //Check which team you are
@@ -292,6 +290,16 @@ contract RiskToken is ERC20Interface, Owned {
 
     function getRoundTimeLeft() returns (uint time) {
       return lastGame.endingTime;
+    }
+
+    function purchaseTokens() payable {
+      uint tokensToPurchase = msg.value.mul(riskPerEth);
+      require(playerTeams[msg.sender] != 1 && playerTeams[msg.sender] != 2); //player must be registered to buy tokens
+      require(tokensDistributed.add(tokensToPurchase) <= _totalSupply);
+      if(!owner.send(msg.value)) {
+        throw;
+      }
+      balances[msg.sender] += tokensToPurchase; //Give them the tokens
     }
 
 }
