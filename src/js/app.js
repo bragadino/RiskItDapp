@@ -15,8 +15,9 @@ var accounts;
 var account;
 var baseURL = "http://localhost:8080/";
 //var MetaCoin = contract(metacoin_artifacts);
-var risktokenContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"tokensDistributed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"getRoundTimeLeft","outputs":[{"name":"time","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"endRound","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"roundLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"getTeam","outputs":[{"name":"team","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"riskPerEth","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastGame","outputs":[{"name":"round","type":"uint256"},{"name":"redAmount","type":"uint256"},{"name":"blueAmount","type":"uint256"},{"name":"winner","type":"uint8"},{"name":"endingTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"blueTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gameRound","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"claimWinnings","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"blueScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"team","type":"uint256"},{"name":"tokensToPurchase","type":"uint256"}],"name":"register","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"riskAmount","type":"uint256"}],"name":"riskIt","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}]);
-var MetaCoin = risktokenContract.at("0x2287811BD6Db5447dc1430E97Fc104740575c2CF");
+var risktokenContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"tokensDistributed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"purchaseTokens","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[],"name":"getRoundTimeLeft","outputs":[{"name":"time","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"endRound","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"roundLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"getTeam","outputs":[{"name":"team","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"redTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"riskPerEth","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastGame","outputs":[{"name":"round","type":"uint256"},{"name":"redAmount","type":"uint256"},{"name":"blueAmount","type":"uint256"},{"name":"winner","type":"uint8"},{"name":"endingTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"blueTotalPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gameRound","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"claimWinnings","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"blueScore","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"team","type":"uint256"},{"name":"tokensToPurchase","type":"uint256"}],"name":"register","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"riskAmount","type":"uint256"}],"name":"riskIt","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}]);
+//var MetaCoin = risktokenContract.at("0x2287811BD6Db5447dc1430E97Fc104740575c2CF"); //TESTNET address
+var MetaCoin = risktokenContract.at("0xb3426b345dee8fcdae7eb34053373411c2489fd1"); //Local address
 
 
 window.App = {
@@ -104,7 +105,9 @@ window.App = {
     MetaCoin.balanceOf.call(account, {from:account}, function(error, result) {
       if (!error) {
         var balance_element = document.getElementById("balance");
-        balance_element.innerHTML = result.valueOf();
+        var number = new web3.BigNumber(result.valueOf()).div(Math.pow(10,18));
+        balance_element.innerHTML = number.toFixed(18);
+        alert(number);
       } else {
         console.log("Error getting balance");
       }
@@ -210,7 +213,11 @@ window.App = {
     MetaCoin.tokensDistributed.call({from: account}, function(error, result) {
       if (!error) {
         var balance_element = document.getElementById("tokens_left");
-        balance_element.innerHTML = 200000 - result.valueOf();
+        var total_amount = new web3.BigNumber(100000).mul(Math.pow(10,18));
+        var dist = new web3.BigNumber(result.valueOf());
+        var final = total_amount.minus(result.toString()).div(Math.pow(10,18));
+        //Return the final to correct decimal places
+        balance_element.innerHTML = final.toFixed(18);
       } else {
         console.log("Error getting tokens left");
       }
@@ -222,7 +229,8 @@ window.App = {
     MetaCoin.redRisked.call({from: account}, function(error, result) {
       if (!error) {
         var red_risked = document.getElementById("red_risked");
-        red_risked.innerHTML = result.valueOf();
+        var risked_amount = new web3.BigNumber(result.valueOf()).div(Math.pow(10,18));
+        red_risked.innerHTML = risked_amount.toFixed(18);
       } else {
         console.log("Error getting red risked")
       }
@@ -230,7 +238,8 @@ window.App = {
     MetaCoin.blueRisked.call({from: account}, function(error, result) {
       if (!error) {
         var blue_risked = document.getElementById("blue_risked");
-        blue_risked.innerHTML = result.valueOf();
+        var risked_amount = new web3.BigNumber(result.valueOf()).div(Math.pow(10,18));
+        blue_risked.innerHTML = risked_amount.toFixed(18);
       } else {
         console.log("Error getting blue risked");
       }
@@ -258,7 +267,8 @@ window.App = {
     MetaCoin.balanceOf.call(account, {from:account}, function(error, result) {
       if (!error) {
         var balance_element = document.getElementById("balance");
-        balance_element.innerHTML = result.valueOf();
+        var balance = new web3.BigNumber(result.valueOf()).div(Math.pow(10,18));
+        balance_element.innerHTML = balance.toFixed(18);
       } else {
         console.log("Error getting balance");
       }
@@ -309,10 +319,16 @@ window.App = {
       //var team = document.getElementById("team_switch");
       //var teamInt = parseInt(team.options[team.selectedIndex].value.valueOf());
       var tokens = parseInt(document.getElementById("token_amount").value);
+      var tokens_actual = new web3.BigNumber(tokens).times(Math.pow(10,18));
+      alert(tokens_actual);
       //this.setStatus("Initiating transaction..."+teamInt+" ");
       var teamInt = parseInt(team);
-      var weiValue = web3.toWei(tokens * (1/1000), 'ether');
-      MetaCoin.register(teamInt, tokens, {from: account, value: weiValue}, function(error, value) {
+      //var tokens_cost_ratio = new web3.BigNumber(1).div(1000 * Math.pow(10,18));
+      var tokens_cost_ratio =  (1/1000);
+      //alert(tokens_cost_ratio);
+      var weiValue = web3.toWei(tokens * (tokens_cost_ratio), 'ether');
+      //alert("Buying "+tokens_actual.div(Math.pow(10,18)).toFixed(18));
+      MetaCoin.register(teamInt, tokens_actual, {from: account, value: weiValue}, function(error, value) {
         if (!error) {
           window.location.href = "index.html";
           //Refresh
@@ -326,7 +342,8 @@ window.App = {
   risk: function() {
     var self = this;
     var tokenAmount = parseInt(document.getElementById("tokens_to_risk").value);
-    MetaCoin.riskIt(tokenAmount,{from: account}, function(error, result) {
+    var tokens_actual = new web3.BigNumber(tokenAmount).times(Math.pow(10,18));
+    MetaCoin.riskIt(tokens_actual,{from: account}, function(error, result) {
       if (!error) {
           self.refreshGameDetails();
       } else {
@@ -336,6 +353,20 @@ window.App = {
     });
   },
 
+  //TODO This functionality
+  buy: function() {
+    var self = this;
+    var tokenAmount = parseInt(document.getElementById("tokens_to_buy").value);
+    var tokens = new web3.BigNumber(tokenAmount);
+    MetaCoin.purchaseTokens({from: account, value: (tokenAmount/1000)*10**18}, function(error, result) {
+      if (!error) {
+          self.refreshGameDetails();
+      } else {
+        console.log(error);
+        alert("Error during risk. Please try again");
+      }
+    });
+  },
   // claimCaptain: function() {
   //   //get the users team
   //   var self = this;

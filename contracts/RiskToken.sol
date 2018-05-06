@@ -135,7 +135,7 @@ contract RiskToken is ERC20Interface, Owned {
         redTotalPlayers = 0;
         blueTotalPlayers = 0;
         tokensDistributed = 0;
-        riskPerEth = 1000;
+        riskPerEth = 1000 * 10**uint(decimals); //multiplied to get appropriate decimal places.
         blueRisked = 0;
         redRisked = 0;
         gameRound = 1;
@@ -253,7 +253,7 @@ contract RiskToken is ERC20Interface, Owned {
           ratio = risk.amount.div(lastGame.blueAmount);
           extraWinnings = ratio.mul(lastGame.redAmount);
         }
-        balances[msg.sender] += risk.amount + extraWinnings; //todo - how to calc how much of other teams winnings they get
+        balances[msg.sender] += risk.amount + extraWinnings;
         //Reset so players cant double claimWinnings
         playersRisks[msg.sender].amount = 0;
         playersRisks[msg.sender].round = 0;
@@ -266,7 +266,6 @@ contract RiskToken is ERC20Interface, Owned {
       require(team == 1 || team == 2);
       require(msg.value.mul(riskPerEth) >= tokensToPurchase); //Ensure tokens match token price
       require(tokensDistributed.add(tokensToPurchase) <= _totalSupply); //Make sure total supply hasnt been exceeded
-      //require(redTotalPlayers - blueTotalPlayers <= 9) //if there are 10 more players on one team, cant register for that team TODO should I do this
       //Send ETH to contract owner
       if(!owner.send(msg.value)) {
         throw;
@@ -294,7 +293,7 @@ contract RiskToken is ERC20Interface, Owned {
 
     function purchaseTokens() payable {
       uint tokensToPurchase = msg.value.mul(riskPerEth);
-      require(playerTeams[msg.sender] != 1 && playerTeams[msg.sender] != 2); //player must be registered to buy tokens
+      require(playerTeams[msg.sender] == 1 || playerTeams[msg.sender] == 2); //player must be registered to buy tokens
       require(tokensDistributed.add(tokensToPurchase) <= _totalSupply);
       if(!owner.send(msg.value)) {
         throw;
