@@ -341,7 +341,7 @@ window.App = {
     var self = this;
     var tokenAmount = parseInt(document.getElementById("tokens_to_risk").value);
     var tokens_actual = new web3.BigNumber(tokenAmount).times(Math.pow(10,18));
-    RiskIt.riskIt(tokens_actual,{from: account}, function(error, result) {
+    RiskIt.riskIt(tokens_actual, {from: account}, function(error, result) {
       if (!error) {
           self.refreshGameDetails();
       } else {
