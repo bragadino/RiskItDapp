@@ -210,13 +210,13 @@ contract RiskToken is ERC20Interface, Owned {
         _risk.round = gameRound;
         _risk.amount = riskAmount;
         //Take the amount away to avoid duplicate spends
-        balances[msg.sender] -= riskAmount;
+        balances[msg.sender] = balances[msg.sender].sub(riskAmount);
     }
 
     //Called by any player to end the round and allocate scores, etc.
     function endRound() {
-      //require(now >= lastGame.endingTime + 5 * 1 minutes);
-      require(now >= (lastGame.endingTime + roundLength * 1 days)); //todo remove after testing
+      //require(now >= lastGame.endingTime + 5 * 1 minutes); //Testing time
+      require(now >= (lastGame.endingTime + roundLength * 1 days));
       lastGame.redAmount = redRisked;
       lastGame.blueAmount = blueRisked;
       lastGame.endingTime = now;
@@ -277,8 +277,8 @@ contract RiskToken is ERC20Interface, Owned {
       } else if (team == 2) {
         blueTotalPlayers++;
       }
-      balances[msg.sender] += tokensToPurchase; //Give them the tokens
-      tokensDistributed += tokensToPurchase;
+      balances[msg.sender] = balances[msg.sender].add(tokensToPurchase); //Give them the tokens
+      tokensDistributed = tokensDistributed.add(tokensToPurchase);
       Transfer(address(0), msg.sender, tokensToPurchase);
     }
 
@@ -291,14 +291,15 @@ contract RiskToken is ERC20Interface, Owned {
       return lastGame.endingTime;
     }
 
-    function purchaseTokens() payable {
-      uint tokensToPurchase = msg.value.mul(riskPerEth);
+    function purchaseTokens(uint tokensToPurchase) payable {
+      //uint tokensToPurchase = msg.value.mul(riskPerEth);
       require(playerTeams[msg.sender] == 1 || playerTeams[msg.sender] == 2); //player must be registered to buy tokens
       require(tokensDistributed.add(tokensToPurchase) <= _totalSupply);
       if(!owner.send(msg.value)) {
         throw;
       }
-      balances[msg.sender] += tokensToPurchase; //Give them the tokens
+      balances[msg.sender] = balances[msg.sender].add(tokensToPurchase); //Give them the tokens
+      tokensDistributed = tokensDistributed.add(tokensToPurchase);
     }
 
 }
