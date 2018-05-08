@@ -351,7 +351,6 @@ window.App = {
     });
   },
 
-  //TODO This functionality
   buy: function() {
     var self = this;
     var tokens = parseInt(document.getElementById("tokens_to_buy").value);
