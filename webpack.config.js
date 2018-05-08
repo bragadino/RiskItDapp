@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -22,7 +23,8 @@ module.exports = {
     "process.env": {
       "NODE_ENV": JSON.stringify("production")
     }
-  })
+  }),
+  new CleanWebpackPlugin(['dist']),
   ],
   module: {
     rules: [
